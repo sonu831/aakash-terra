@@ -1,114 +1,272 @@
 # Aakash Terra Infrastructure
 
-This repository contains the infrastructure code for the Aakash Terra project, including base infrastructure, backend support, and application-specific components.
+This repository contains the complete infrastructure code for the Aakash Terra project, implemented using Terraform and AWS services. The infrastructure is organized into modular components for better maintainability and scalability.
 
-## Repository Setup History
+## Repository Setup and Changes History
 
-### Initial Setup
-1. Repository initialized with Git
-2. Default branch renamed to 'main'
-3. Remote repository added: https://github.com/sonu831/aakash-terra.git
-4. Develop branch created and pushed
-5. Git credentials configured:
-   - Username: sonu831
-   - Email: sonu831@gmail.com
-   - Personal Access Token configured for secure authentication
+### Initial Setup and Configuration
+1. Repository Initialization
+   - Created new Git repository
+   - Configured with proper Git ignore patterns
+   - Set up branch protection rules
 
-### Branch Structure
-- `main`: Production-ready code
-- `develop`: Development branch for ongoing work
+2. Branch Management
+   - Renamed default branch to 'main' for production
+   - Created 'develop' branch for development work
+   - Implemented Git Flow branching strategy
 
-## Project Structure
+3. Authentication Setup
+   - Configured Git credentials
+   - Set up Personal Access Token authentication
+   - Implemented secure credential storage
 
-### Base Infrastructure (`/base`)
-- VPC Configuration
-- ECR Setup
-- IAM Configuration
-- Security Groups
-- Network Components
+### Infrastructure Components and Changes
 
-### Backend Support (`/backend-support`)
-- Backend service infrastructure
-- Service configurations
-- Resource definitions
+#### Base Infrastructure (`/base`)
+- **VPC Configuration**
+  - Multi-AZ deployment across 3 availability zones
+  - Public and private subnet architecture
+  - NAT Gateway setup for private subnet internet access
+  - Internet Gateway configuration
+  - Custom route tables for traffic management
+  - Security groups for network protection
 
-### News Module (`/news`)
-- News service infrastructure
-- Provisioning scripts
-- S3 static hosting
-- Application deployment
+- **ECR Setup**
+  - Repository creation for container images
+  - Lifecycle policies for image management
+  - Access controls and permissions
+  - Image scanning configuration
 
-### Interviewee Module (`/interviewee`)
-- IAM policies
-- User configurations
-- Resource access controls
+- **IAM Configuration**
+  - Service roles for AWS services
+  - Instance profiles for EC2 instances
+  - Policy attachments for resource access
+  - Permission boundaries for security
 
-## Setup Instructions
+#### Backend Support (`/backend-support`)
+- **Service Infrastructure**
+  - Backend service deployment configuration
+  - Load balancer setup
+  - Auto-scaling configuration
+  - Health check implementation
 
+- **Resource Management**
+  - Database configuration
+  - Cache layer setup
+  - Storage solutions
+  - Monitoring and logging
+
+#### News Module (`/news`)
+- **Application Infrastructure**
+  - News service deployment
+  - S3 static website hosting
+  - CloudFront distribution
+  - Route 53 DNS configuration
+
+- **Provisioning Scripts**
+  - Docker container setup
+  - Frontend deployment
+  - Newsfeed service configuration
+  - Quotes service setup
+
+#### Interviewee Module (`/interviewee`)
+- **IAM Policies**
+  - DynamoDB access policies
+  - EC2 instance policies
+  - ECR repository policies
+  - S3 bucket policies
+  - SSM parameter policies
+
+- **User Management**
+  - User creation and configuration
+  - Group management
+  - Permission assignments
+  - Access control implementation
+
+## Detailed Setup Instructions
+
+### Prerequisites
+- Terraform v1.0.0 or later
+- AWS CLI configured with appropriate credentials
+- Git version control system
+- Access to AWS services
+
+### Environment Setup
 1. Clone the repository:
    ```bash
    git clone https://github.com/sonu831/aakash-terra.git
+   cd aakash-terra
    ```
 
-2. Switch to develop branch:
+2. Configure development environment:
    ```bash
    git checkout develop
-   ```
-
-3. Configure Git credentials (if not already done):
-   ```bash
    git config --global user.name "sonu831"
    git config --global user.email "sonu831@gmail.com"
    git config --global credential.helper store
    ```
 
-## Security
+3. Initialize Terraform:
+   ```bash
+   cd base
+   terraform init
+   ```
 
+### Deployment Process
+1. Base Infrastructure:
+   ```bash
+   cd base
+   terraform plan
+   terraform apply
+   ```
+
+2. Backend Support:
+   ```bash
+   cd ../backend-support
+   terraform plan
+   terraform apply
+   ```
+
+3. News Module:
+   ```bash
+   cd ../news
+   terraform plan
+   terraform apply
+   ```
+
+4. Interviewee Module:
+   ```bash
+   cd ../interviewee
+   terraform plan
+   terraform apply
+   ```
+
+## Security Implementation
+
+### Authentication & Authorization
 - Personal Access Token authentication
-- Secure credential storage
 - IAM role-based access control
-- Network security groups
-- Resource access policies
+- Resource-level permissions
+- Service-to-service authentication
 
-## Best Practices
+### Network Security
+- VPC security groups
+- Network ACLs
+- Private subnet isolation
+- VPC endpoints for AWS services
 
-1. Always work on feature branches
-2. Merge to develop for testing
-3. Use main branch for production
-4. Follow security guidelines
-5. Regular code reviews
+### Data Protection
+- Encryption at rest
+- Encryption in transit
+- Access logging
+- Audit trails
 
-## Maintenance
+## Best Practices Implemented
 
-- Regular security updates
+### Infrastructure as Code
+- Modular Terraform configuration
+- Version-controlled infrastructure
+- Automated deployment
+- State management
+
+### Security
+- Least privilege access
+- Regular security audits
+- Vulnerability scanning
+- Compliance monitoring
+
+### Operations
+- Automated backups
+- Disaster recovery
+- Monitoring and alerting
+- Performance optimization
+
+## Maintenance Guidelines
+
+### Regular Tasks
+- Security updates
 - Infrastructure monitoring
 - Access control reviews
 - Resource optimization
+- Backup verification
 
-## Dependencies
+### Emergency Procedures
+- Incident response
+- Disaster recovery
+- Rollback procedures
+- Communication protocols
 
-- Terraform
-- AWS CLI
-- Git
-- GitHub
+## Dependencies and Requirements
 
-## Version History
+### Core Dependencies
+- Terraform >= 1.0.0
+- AWS CLI >= 2.0
+- Git >= 2.0
+- Python >= 3.8 (for scripts)
 
-- v1.0.0: Initial repository setup
-- v1.1.0: Added base infrastructure
-- v1.2.0: Added backend support
-- v1.3.0: Added news and interviewee modules
+### AWS Services
+- VPC
+- EC2
+- S3
+- RDS
+- ECR
+- IAM
+- CloudWatch
+- Route 53
 
-## Contributing
+## Version History and Changes
 
-1. Create a feature branch
-2. Make your changes
-3. Submit a pull request
-4. Get code review approval
-5. Merge to develop
+### v1.0.0 (Initial Setup)
+- Repository initialization
+- Basic infrastructure setup
+- Git configuration
+- Documentation
 
-## Contact
+### v1.1.0 (Base Infrastructure)
+- VPC implementation
+- ECR setup
+- IAM configuration
+- Security groups
 
-For any questions or support, please contact:
+### v1.2.0 (Backend Support)
+- Service infrastructure
+- Database setup
+- Cache implementation
+- Monitoring
+
+### v1.3.0 (Application Modules)
+- News module deployment
+- Interviewee module setup
+- Provisioning scripts
+- Documentation updates
+
+## Contributing Guidelines
+
+### Development Process
+1. Create feature branch from develop
+2. Implement changes
+3. Run tests and validations
+4. Submit pull request
+5. Code review process
+6. Merge to develop
+7. Deploy to staging
+8. Promote to production
+
+### Code Standards
+- Terraform best practices
+- Security compliance
+- Documentation requirements
+- Testing requirements
+
+## Support and Contact
+
+### Technical Support
 - Email: sonu831@gmail.com
 - GitHub: sonu831
+- Issue Tracker: GitHub Issues
+
+### Documentation
+- README files
+- Architecture diagrams
+- Deployment guides
+- Troubleshooting guides

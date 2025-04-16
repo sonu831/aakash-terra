@@ -1,132 +1,167 @@
-# Application Infrastructure Module
+# News Module
 
-This module manages the application-specific infrastructure including EC2 instances, S3 buckets, and provisioning scripts.
+This module provides the infrastructure for the news service, including static website hosting, application deployment, and service provisioning components.
 
-## Components
+## Components and Changes
 
-### EC2 Configuration
-- Instance creation
-- Auto Scaling
-- Load Balancing
-- Security groups
+### Application Infrastructure
+- **Static Website Hosting**
+  - S3 bucket configuration
+  - CloudFront distribution
+  - Route 53 DNS setup
+  - SSL/TLS certificate
+  - Custom domain configuration
 
-### S3 Configuration
-- Static website hosting
-- Bucket policies
-- Lifecycle rules
-- Access controls
+- **Service Deployment**
+  - EC2 instance setup
+  - Auto-scaling configuration
+  - Load balancer setup
+  - Health monitoring
+  - Service discovery
 
 ### Provisioning Scripts
-- Docker setup
-- Frontend deployment
-- Newsfeed service
-- Quotes service
+- **Docker Setup**
+  - Container installation
+  - Docker Compose configuration
+  - Image management
+  - Container networking
+  - Volume management
+
+- **Service Provisioning**
+  - Frontend deployment
+  - Newsfeed service setup
+  - Quotes service configuration
+  - Environment configuration
+  - Service dependencies
 
 ## Configuration
 
 ### Required Variables
-- `environment`: Deployment environment
+- `environment`: Deployment environment (dev/staging/prod)
+- `domain_name`: Domain name for the website
+- `vpc_id`: VPC ID for deployment
+- `subnet_ids`: List of subnet IDs for deployment
 - `instance_type`: EC2 instance type
-- `domain_name`: Website domain name
+- `min_size`: Minimum number of instances
+- `max_size`: Maximum number of instances
 
 ### Optional Variables
-- `min_size`: Minimum ASG size (default: 1)
-- `max_size`: Maximum ASG size (default: 3)
-- `desired_capacity`: Desired ASG capacity (default: 2)
+- `enable_ssl`: Enable SSL/TLS (default: true)
+- `enable_backup`: Enable S3 backup (default: true)
+- `backup_retention`: Backup retention in days (default: 30)
+- `enable_monitoring`: Enable CloudWatch monitoring (default: true)
+- `enable_logging`: Enable CloudWatch logging (default: true)
 
-## Usage
+## Usage Example
 
 ```hcl
 module "news" {
   source = "./news"
   
-  environment   = "prod"
-  instance_type = "t3.medium"
-  domain_name   = "example.com"
+  environment = "prod"
+  domain_name = "news.example.com"
+  vpc_id = module.base.vpc_id
+  subnet_ids = module.base.public_subnet_ids
   
+  instance_type = "t3.medium"
   min_size = 2
   max_size = 4
+  
+  enable_ssl = true
+  enable_backup = true
+  backup_retention = 60
+  enable_monitoring = true
+  enable_logging = true
 }
 ```
 
-## Security
+## Security Implementation
 
-### EC2 Security
-- Security groups
-- IAM roles
-- SSH access
-- System updates
-
-### S3 Security
-- Bucket policies
-- Encryption
-- Access logging
-- Versioning
-
-### Application Security
-- HTTPS enforcement
-- WAF rules
+### Website Security
+- SSL/TLS encryption
+- WAF protection
 - DDoS protection
-- Security headers
+- Access logging
+- Backup encryption
+
+### Service Security
+- Instance security groups
+- IAM roles and policies
+- Secret management
+- Access logging
+- Vulnerability scanning
+
+### Network Security
+- Public subnet deployment
+- Security group rules
+- Network ACLs
+- VPC endpoints
+- SSL/TLS encryption
 
 ## Best Practices
 
-1. Use Auto Scaling for availability
-2. Implement proper monitoring
-3. Regular backups
-4. Security updates
+1. **Deployment Strategy**
+   - Blue-green deployment
+   - Canary releases
+   - Rolling updates
+   - Health monitoring
+
+2. **Content Management**
+   - Regular backups
+   - Version control
+   - Access control
+   - Content validation
+
+3. **Monitoring and Logging**
+   - CloudWatch integration
+   - Custom metrics
+   - Log aggregation
+   - Alert configuration
 
 ## Maintenance
 
-- Regular updates
+### Regular Tasks
+- Security updates
 - Performance monitoring
-- Security patches
 - Backup verification
+- Log analysis
+- Capacity planning
+
+### Emergency Procedures
+- Failover testing
+- Disaster recovery
+- Incident response
+- Rollback procedures
 
 ## Dependencies
 
-- AWS EC2
 - AWS S3
+- AWS CloudFront
+- AWS Route 53
+- AWS EC2
 - AWS ELB
-- AWS Auto Scaling
+- AWS CloudWatch
+- AWS IAM
+- AWS ACM
 
 ## Version History
 
 - v1.0.0: Initial release
-- v1.1.0: Added Auto Scaling
-- v1.2.0: Enhanced security
-- v1.3.0: Added monitoring
+  - Basic static website
+  - Simple service deployment
+  - Basic monitoring
 
-## Provisioning Scripts
+- v1.1.0: Enhanced Features
+  - CloudFront integration
+  - Auto-scaling support
+  - Advanced monitoring
 
-### Docker Setup
-```bash
-./provision-docker.sh
-```
-- Installs Docker
-- Configures Docker daemon
-- Sets up container networking
+- v1.2.0: Security Improvements
+  - SSL/TLS implementation
+  - WAF integration
+  - Access control improvements
 
-### Frontend Deployment
-```bash
-./provision-front_end.sh
-```
-- Installs Node.js
-- Sets up Nginx
-- Configures SSL
-
-### Newsfeed Service
-```bash
-./provision-newsfeed.sh
-```
-- Installs dependencies
-- Configures service
-- Sets up monitoring
-
-### Quotes Service
-```bash
-./provision-quotes.sh
-```
-- Installs dependencies
-- Configures service
-- Sets up monitoring 
+- v1.3.0: Latest Updates
+  - Service discovery
+  - Advanced logging
+  - Performance optimizations 
